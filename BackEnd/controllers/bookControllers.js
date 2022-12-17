@@ -25,7 +25,7 @@ const addbooks = async (req, res, next) => {
       description,
       price,
       available,
-      image
+      image,
     });
     await book.save();
   } catch (err) {
@@ -42,9 +42,9 @@ const getById = async (req, res, next) => {
   const id = req.params.BookId;
   let book;
 
-  try{
+  try {
     book = await Book.findById(id);
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 
@@ -53,7 +53,7 @@ const getById = async (req, res, next) => {
   }
 
   return res.status(200).json({ book });
-}
+};
 
 const updateId = async (req, res, next) => {
   const id = req.params.BookId;
@@ -61,50 +61,52 @@ const updateId = async (req, res, next) => {
 
   let book;
 
-  try{
-    book = await Book.findByIdAndUpdate(id ,{
+  try {
+    book = await Book.findByIdAndUpdate(id, {
       name,
       author,
       description,
       price,
-      available,image
+      available,
+      image,
     });
 
     book = await Book.save();
-  }
-  catch(err){
+  } catch (err) {
     console.log(err);
   }
 
   if (!book) {
-    return res.status(404).json({ message: "unable to update book of this id" });
+    return res
+      .status(404)
+      .json({ message: "unable to update book of this id" });
   }
 
   return res.status(200).json({ book });
-
-}
+};
 
 const deleteById = async (req, res, next) => {
   const id = req.params.BookId;
 
   let book;
 
-  try{
+  try {
     book = await Book.findOneAndRemove(id);
-  }catch(err){
+  } catch (err) {
     console.log(err);
   }
 
   if (!book) {
-    return res.status(404).json({ message: "unable to delete book of this id" });
+    return res
+      .status(404)
+      .json({ message: "unable to delete book of this id" });
   }
 
-  return res.status(200).json({ message : "Book Deleted Succsecfully" });
-
-}
+  return res.status(200).json({ message: "Book Deleted Succsecfully" });
+};
 
 exports.getAllBooks = getAllBooks;
 exports.addbooks = addbooks;
 exports.getById = getById;
 exports.updateId = updateId;
-exports.deleteById=deleteById;
+exports.deleteById = deleteById;
